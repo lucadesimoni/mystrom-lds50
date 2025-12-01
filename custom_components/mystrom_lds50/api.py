@@ -44,7 +44,8 @@ class MyStromAPI:
     ) -> None:
         """Initialize the MyStrom API client."""
         self.host = host.rstrip("/")
-        self._base_url = f"http://{self.host}"  # nosec # MyStrom devices use HTTP, not HTTPS
+        # MyStrom devices use HTTP, not HTTPS
+        self._base_url = f"http://{self.host}"  # nosec
         self._session = session
         self._timeout = aiohttp.ClientTimeout(total=timeout)
 

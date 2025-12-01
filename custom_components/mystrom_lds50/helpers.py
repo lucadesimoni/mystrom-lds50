@@ -36,7 +36,7 @@ def get_coordinator_from_entity_id(
     if (config_entry_id := next(iter(device_entry.config_entries), None)) is None:
         return None
 
-    coordinator: MyStromDataUpdateCoordinator | None = hass.data.get(DOMAIN, {}).get(
-        config_entry_id
+    coordinator: MyStromDataUpdateCoordinator | None = (
+        hass.data.get(DOMAIN, {}).get(config_entry_id)
     )
     return coordinator

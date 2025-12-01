@@ -21,7 +21,9 @@ _LOGGER = logging.getLogger(__name__)
 class MyStromDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Coordinator for updating MyStrom device data."""
 
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
+    def __init__(
+        self, hass: HomeAssistant, entry: ConfigEntry  # type: ignore[type-arg]
+    ) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

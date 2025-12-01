@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
 
 
-def get_device_info(entry: ConfigEntry) -> dr.DeviceInfo:
+def get_device_info(entry: ConfigEntry) -> dr.DeviceInfo:  # type: ignore[type-arg]
     """Get device info for a config entry."""
     unique_id = entry.unique_id or entry.data.get("mac") or entry.data["host"]
     return dr.DeviceInfo(

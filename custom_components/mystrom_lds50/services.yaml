@@ -1,0 +1,44 @@
+set_relay_state:
+  name: Set relay state
+  description: Set the relay state of a MyStrom device.
+  fields:
+    entity_id:
+      name: Entity
+      description: Entity ID of the MyStrom device switch.
+      required: true
+      selector:
+        entity:
+          domain: switch
+          integration: mystrom_lds50
+    state:
+      name: State
+      description: Desired relay state (on or off).
+      required: true
+      selector:
+        boolean:
+
+toggle_relay:
+  name: Toggle relay
+  description: Toggle the relay state of a MyStrom device.
+  fields:
+    entity_id:
+      name: Entity
+      description: Entity ID of the MyStrom device switch.
+      required: true
+      selector:
+        entity:
+          domain: switch
+          integration: mystrom_lds50
+
+reboot:
+  name: Reboot
+  description: Reboot a MyStrom device.
+  fields:
+    entity_id:
+      name: Entity
+      description: Entity ID of the MyStrom device switch.
+      required: true
+      selector:
+        entity:
+          domain: switch
+          integration: mystrom_lds50

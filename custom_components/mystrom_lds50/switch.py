@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: ConfigEntry,
+    entry: ConfigEntry,  # type: ignore[type-arg]
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up MyStrom switches from a config entry."""
@@ -35,7 +35,8 @@ async def async_setup_entry(
     async_add_entities([MyStromSwitch(coordinator, entry)])
 
 
-class MyStromSwitch(CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntity):
+# Pylint incorrectly flags abstract methods - async_turn_on/off are implemented
+class MyStromSwitch(CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntity):  # pylint: disable=abstract-method
     """Representation of a MyStrom switch."""
 
     _attr_has_entity_name = True
@@ -44,7 +45,7 @@ class MyStromSwitch(CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntit
     def __init__(
         self,
         coordinator: MyStromDataUpdateCoordinator,
-        entry: ConfigEntry,
+        entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
         """Initialize the switch."""
         super().__init__(coordinator)

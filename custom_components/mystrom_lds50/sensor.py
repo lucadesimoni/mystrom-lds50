@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: ConfigEntry,
+    entry: ConfigEntry,  # type: ignore[type-arg]
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up MyStrom sensors from a config entry.
@@ -73,7 +73,7 @@ class MyStromSensorBase(
     def __init__(
         self,
         coordinator: MyStromDataUpdateCoordinator,
-        entry: ConfigEntry,
+        entry: ConfigEntry,  # type: ignore[type-arg]
         sensor_key: str,
         unique_id_suffix: str,
     ) -> None:
@@ -106,7 +106,7 @@ class MyStromPowerSensor(MyStromSensorBase):
     def __init__(
         self,
         coordinator: MyStromDataUpdateCoordinator,
-        entry: ConfigEntry,
+        entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
         """Initialize the power sensor.
 
@@ -164,7 +164,7 @@ class MyStromTemperatureSensor(MyStromSensorBase):
     def __init__(
         self,
         coordinator: MyStromDataUpdateCoordinator,
-        entry: ConfigEntry,
+        entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
         """Initialize the temperature sensor.
 
@@ -204,7 +204,7 @@ class MyStromEnergySensor(MyStromSensorBase):
     def __init__(
         self,
         coordinator: MyStromDataUpdateCoordinator,
-        entry: ConfigEntry,
+        entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
         """Initialize the energy sensor.
 
