@@ -67,7 +67,14 @@
         "vulture",
         "workflows",
         "yaml",
-        "yamllint"
+        "yamllint",
+        "mystrom",
+        "clientsession",
+        "wifi",
+        "WIFI",
+        "wlan",
+        "WLAN",
+        "lucad"
     ],
     "ignorePaths": [
         "node_modules/**",

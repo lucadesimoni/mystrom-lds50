@@ -13,7 +13,7 @@ CONF_HOST = "host"
 CONF_MAC = "mac"
 CONF_NAME = "name"
 CONF_DEVICE_TYPE = "device_type"
-CONF_TOKEN = "token"
+CONF_TOKEN = "token"  # nosec B105
 
 # Default values
 DEFAULT_TIMEOUT = 10
@@ -53,4 +53,3 @@ ATTR_DEVICE_TYPE = "device_type"
 ERROR_CANNOT_CONNECT = "cannot_connect"
 ERROR_INVALID_AUTH = "invalid_auth"
 ERROR_UNKNOWN = "unknown"
-

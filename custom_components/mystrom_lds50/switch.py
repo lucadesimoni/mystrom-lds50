@@ -2,17 +2,27 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from homeassistant.components.switch import SwitchEntity
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import ATTR_DEVICE_TYPE, ATTR_HOST, ATTR_MAC, ATTR_POWER, DOMAIN, KEY_POWER, KEY_RELAY
-from .device import get_device_info
+from .const import (
+    ATTR_DEVICE_TYPE,
+    ATTR_HOST,
+    ATTR_MAC,
+    ATTR_POWER,
+    DOMAIN,
+    KEY_POWER,
+    KEY_RELAY,
+)
 from .coordinator import MyStromDataUpdateCoordinator
+from .device import get_device_info
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
 
 
 async def async_setup_entry(
@@ -39,7 +49,10 @@ class MyStromSwitch(CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntit
         """Initialize the switch."""
         super().__init__(coordinator)
         self._entry = entry
-        self._attr_unique_id = entry.unique_id or entry.data.get("mac") or entry.data["host"]
+        unique_id_base = (
+            entry.unique_id or entry.data.get("mac") or entry.data["host"]
+        )
+        self._attr_unique_id = unique_id_base
         self._attr_device_info = get_device_info(entry)
 
     @property
@@ -83,4 +96,3 @@ class MyStromSwitch(CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntit
             attrs[ATTR_POWER] = power
 
         return attrs
-

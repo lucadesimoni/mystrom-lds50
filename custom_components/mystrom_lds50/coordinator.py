@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import MyStromAPI, MyStromConnectionError
 from .const import DEFAULT_SCAN_INTERVAL
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -40,4 +42,3 @@ class MyStromDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             raise UpdateFailed("Empty response from device")
         except MyStromConnectionError as err:
             raise UpdateFailed(f"Error communicating with device: {err}") from err
-

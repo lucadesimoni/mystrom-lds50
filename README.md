@@ -45,9 +45,11 @@ A lightweight, modern Home Assistant integration for MyStrom devices (Switch, Ze
 ## Available Entities
 
 ### Switch
+
 - Main relay control
 
 ### Sensors
+
 - **Power**: Current power consumption (W)
 - **Temperature**: Device temperature (if supported)
 - **Energy**: Total energy consumption (kWh, if supported)
@@ -55,26 +57,32 @@ A lightweight, modern Home Assistant integration for MyStrom devices (Switch, Ze
 ## Services
 
 ### `mystrom_lds50.set_relay_state`
+
 Set the relay state directly.
 
 **Service Data:**
+
 ```yaml
 entity_id: switch.mystrom_device
 state: true  # or false
 ```
 
 ### `mystrom_lds50.toggle_relay`
+
 Toggle the relay state.
 
 **Service Data:**
+
 ```yaml
 entity_id: switch.mystrom_device
 ```
 
 ### `mystrom_lds50.reboot`
+
 Reboot the device.
 
 **Service Data:**
+
 ```yaml
 entity_id: switch.mystrom_device
 ```

@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import DOMAIN
-from .coordinator import MyStromDataUpdateCoordinator
+
+if TYPE_CHECKING:
+    from .coordinator import MyStromDataUpdateCoordinator
 
 
 def get_coordinator_from_entity_id(
@@ -29,9 +33,10 @@ def get_coordinator_from_entity_id(
     if (device_entry := device_registry.async_get(entity_entry.device_id)) is None:
         return None
 
-    config_entry_id = next(iter(device_entry.config_entries), None)
-    if config_entry_id is None:
+    if (config_entry_id := next(iter(device_entry.config_entries), None)) is None:
         return None
 
-    return hass.data.get(DOMAIN, {}).get(config_entry_id)
-
+    coordinator: MyStromDataUpdateCoordinator | None = hass.data.get(DOMAIN, {}).get(
+        config_entry_id
+    )
+    return coordinator

@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-import logging
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
@@ -20,11 +18,19 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import ATTR_WIFI_SIGNAL, DOMAIN, KEY_ENERGY, KEY_POWER, KEY_TEMPERATURE, KEY_WS
+from .const import (
+    ATTR_WIFI_SIGNAL,
+    DOMAIN,
+    KEY_ENERGY,
+    KEY_POWER,
+    KEY_TEMPERATURE,
+    KEY_WS,
+)
 from .coordinator import MyStromDataUpdateCoordinator
 from .device import get_device_info
 
-_LOGGER = logging.getLogger(__name__)
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
 
 
 async def async_setup_entry(
@@ -82,7 +88,9 @@ class MyStromSensorBase(
         super().__init__(coordinator)
         self._sensor_key = sensor_key
         self._entry = entry
-        unique_id_base = entry.unique_id or entry.data.get("mac") or entry.data["host"]
+        unique_id_base = (
+            entry.unique_id or entry.data.get("mac") or entry.data["host"]
+        )
         self._attr_unique_id = f"{unique_id_base}_{unique_id_suffix}"
         self._attr_device_info = get_device_info(entry)
 
@@ -118,8 +126,7 @@ class MyStromPowerSensor(MyStromSensorBase):
         if not self.coordinator.data:
             return None
 
-        power = self.coordinator.data.get(KEY_POWER)
-        if power is None:
+        if (power := self.coordinator.data.get(KEY_POWER)) is None:
             return None
 
         try:
@@ -177,8 +184,7 @@ class MyStromTemperatureSensor(MyStromSensorBase):
         if not self.coordinator.data:
             return None
 
-        temp = self.coordinator.data.get(KEY_TEMPERATURE)
-        if temp is None:
+        if (temp := self.coordinator.data.get(KEY_TEMPERATURE)) is None:
             return None
 
         try:
@@ -218,16 +224,13 @@ class MyStromEnergySensor(MyStromSensorBase):
         if not self.coordinator.data:
             return None
 
-        energy = self.coordinator.data.get(KEY_ENERGY)
-        if energy is None:
+        if (energy := self.coordinator.data.get(KEY_ENERGY)) is None:
             return None
 
         try:
             # Convert from Wh to kWh if needed
-            energy_value = float(energy)
-            if energy_value > 1000:
+            if (energy_value := float(energy)) > 1000:
                 return energy_value / 1000.0
             return energy_value
         except (ValueError, TypeError):
             return None
-

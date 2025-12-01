@@ -44,7 +44,7 @@ class MyStromAPI:
     ) -> None:
         """Initialize the MyStrom API client."""
         self.host = host.rstrip("/")
-        self._base_url = f"http://{self.host}"
+        self._base_url = f"http://{self.host}"  # nosec # MyStrom devices use HTTP, not HTTPS
         self._session = session
         self._timeout = aiohttp.ClientTimeout(total=timeout)
 
@@ -90,12 +90,11 @@ class MyStromAPI:
                     return None
 
                 try:
-                    data = await response.json()
+                    data: dict[str, Any] = await response.json()
                     return data
                 except aiohttp.ContentTypeError:
                     # Some endpoints return plain text
-                    text = await response.text()
-                    if text:
+                    if text := await response.text():
                         return {"response": text}
                     return None
 
@@ -118,10 +117,9 @@ class MyStromAPI:
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
-        data = await self._request("GET", API_ENDPOINT_REPORT)
-        if data is None:
-            raise MyStromAPIError("Empty response from device")
-        return data
+        if data := await self._request("GET", API_ENDPOINT_REPORT):
+            return data
+        raise MyStromAPIError("Empty response from device")
 
     async def set_relay(self, state: bool) -> None:
         """Set relay state.
@@ -177,5 +175,3 @@ class MyStromAPI:
             MyStromAPIError: If API returns an error
         """
         await self._request("GET", "/reboot")
-
-

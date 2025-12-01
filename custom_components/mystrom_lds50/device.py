@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-from homeassistant.config_entries import ConfigEntry
+from typing import TYPE_CHECKING
+
 from homeassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
 
 
 def get_device_info(entry: ConfigEntry) -> dr.DeviceInfo:
@@ -17,4 +21,3 @@ def get_device_info(entry: ConfigEntry) -> dr.DeviceInfo:
         manufacturer="MyStrom",
         model=entry.data.get("device_type", "switch").title(),
     )
-
