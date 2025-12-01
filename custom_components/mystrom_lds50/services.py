@@ -9,7 +9,12 @@ import voluptuous as vol
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers import config_validation as cv
 
-from .const import DOMAIN, SERVICE_REBOOT, SERVICE_SET_RELAY_STATE, SERVICE_TOGGLE_RELAY
+from .const import (
+    DOMAIN,
+    SERVICE_REBOOT,
+    SERVICE_SET_RELAY_STATE,
+    SERVICE_TOGGLE_RELAY,
+)
 from .helpers import get_coordinator_from_entity_id
 
 _LOGGER = logging.getLogger(__name__)

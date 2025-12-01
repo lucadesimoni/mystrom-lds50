@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+)
 
 from .api import MyStromAPI, MyStromConnectionError
 from .const import DEFAULT_SCAN_INTERVAL
@@ -22,7 +25,9 @@ class MyStromDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Coordinator for updating MyStrom device data."""
 
     def __init__(
-        self, hass: HomeAssistant, entry: ConfigEntry  # type: ignore[type-arg]
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

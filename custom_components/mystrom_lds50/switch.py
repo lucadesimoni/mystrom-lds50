@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.core import HomeAssistant
@@ -36,7 +36,9 @@ async def async_setup_entry(
 
 
 # Pylint incorrectly flags abstract methods - async_turn_on/off are implemented
-class MyStromSwitch(CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntity):  # pylint: disable=abstract-method
+class MyStromSwitch(  # pylint: disable=abstract-method
+    CoordinatorEntity[MyStromDataUpdateCoordinator], SwitchEntity
+):
     """Representation of a MyStrom switch."""
 
     _attr_has_entity_name = True

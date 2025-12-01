@@ -17,11 +17,14 @@ PLATFORMS: list[Platform] = [Platform.SWITCH, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: HomeAssistant, entry: ConfigEntry  # type: ignore[type-arg]
+    hass: HomeAssistant,
+    entry: ConfigEntry,  # type: ignore[type-arg]
 ) -> bool:
     """Set up MyStrom LDS50 from a config entry."""
     # Import here to avoid circular import
-    from .services import async_setup_services  # pylint: disable=import-outside-toplevel
+    from .services import (
+        async_setup_services,  # pylint: disable=import-outside-toplevel
+    )
 
     coordinator = MyStromDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -35,9 +38,12 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: HomeAssistant, entry: ConfigEntry  # type: ignore[type-arg]
+    hass: HomeAssistant,
+    entry: ConfigEntry,  # type: ignore[type-arg]
 ) -> bool:
     """Unload a config entry."""
-    if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
+    if unload_ok := await hass.config_entries.async_unload_platforms(
+        entry, PLATFORMS
+    ):
         hass.data[DOMAIN].pop(entry.entry_id, None)
     return unload_ok
