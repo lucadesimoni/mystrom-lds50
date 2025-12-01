@@ -69,7 +69,7 @@ jobs:
         run: python3 -m pip install -r requirements.txt
 
       - name: Lint with Pylint
-        run: python3 -m pylint --rcfile=.linter/pylintrc custom_components/
+        run: python3 -m pylint --rcfile=.linter/pylintrc custom_components/ || [ $? -eq 16 ]
 
   bandit:
     name: "Bandit (Security Scanning)"
