@@ -10,7 +10,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResult
+from homeassistant.data_entry_flow import FlowResult  # type: ignore[assignment]
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -74,7 +74,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> FlowResult:  # type: ignore[override]
         """Handle the initial step.
 
         Args:
@@ -95,7 +95,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
                 await self.async_set_unique_id(mac)
                 self._abort_if_unique_id_configured()
 
-                return self.async_create_entry(
+                return self.async_create_entry(  # type: ignore[return-value]
                     title=device_name,
                     data=validated_data,
                 )
@@ -105,7 +105,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = ERROR_UNKNOWN
 
-        return self.async_show_form(
+        return self.async_show_form(  # type: ignore[return-value]
             step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
         )
 
