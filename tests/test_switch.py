@@ -44,7 +44,7 @@ async def test_switch_is_on_when_relay_is_on(mock_coordinator, mock_config_entry
     """Test switch reports on when relay is on."""
     mock_coordinator.data = {KEY_RELAY: 1, KEY_POWER: 12.5}
 
-    switch = MyStromSwitch(mock_coordinator, mock_coordinator.api, mock_config_entry)
+    switch = MyStromSwitch(mock_coordinator, mock_config_entry)
     assert switch.is_on is True
 
 
@@ -53,7 +53,7 @@ async def test_switch_is_off_when_relay_is_off(mock_coordinator, mock_config_ent
     """Test switch reports off when relay is off."""
     mock_coordinator.data = {KEY_RELAY: 0, KEY_POWER: 0}
 
-    switch = MyStromSwitch(mock_coordinator, mock_coordinator.api, mock_config_entry)
+    switch = MyStromSwitch(mock_coordinator, mock_config_entry)
     assert switch.is_on is False
 
 
@@ -62,39 +62,38 @@ async def test_switch_is_on_by_power(mock_coordinator, mock_config_entry):
     """Test switch reports on based on power consumption."""
     mock_coordinator.data = {KEY_POWER: 12.5}  # No relay key
 
-    switch = MyStromSwitch(mock_coordinator, mock_coordinator.api, mock_config_entry)
+    switch = MyStromSwitch(mock_coordinator, mock_config_entry)
     assert switch.is_on is True
 
 
 @pytest.mark.asyncio
-async def test_turn_on(mock_coordinator, mock_config_entry, mock_api):
+async def test_turn_on(mock_coordinator, mock_config_entry):
     """Test turning switch on."""
-    switch = MyStromSwitch(mock_coordinator, mock_api, mock_config_entry)
+    switch = MyStromSwitch(mock_coordinator, mock_config_entry)
 
     await switch.async_turn_on()
 
-    mock_api.turn_on.assert_called_once()
+    mock_coordinator.api.turn_on.assert_called_once()
     mock_coordinator.async_request_refresh.assert_called_once()
 
 
 @pytest.mark.asyncio
-async def test_turn_off(mock_coordinator, mock_config_entry, mock_api):
+async def test_turn_off(mock_coordinator, mock_config_entry):
     """Test turning switch off."""
-    switch = MyStromSwitch(mock_coordinator, mock_api, mock_config_entry)
+    switch = MyStromSwitch(mock_coordinator, mock_config_entry)
 
     await switch.async_turn_off()
 
-    mock_api.turn_off.assert_called_once()
+    mock_coordinator.api.turn_off.assert_called_once()
     mock_coordinator.async_request_refresh.assert_called_once()
 
 
 @pytest.mark.asyncio
-async def test_toggle(mock_coordinator, mock_config_entry, mock_api):
+async def test_toggle(mock_coordinator, mock_config_entry):
     """Test toggling switch."""
-    switch = MyStromSwitch(mock_coordinator, mock_api, mock_config_entry)
+    switch = MyStromSwitch(mock_coordinator, mock_config_entry)
 
     await switch.async_toggle()
 
-    mock_api.toggle_relay.assert_called_once()
+    mock_coordinator.api.toggle_relay.assert_called_once()
     mock_coordinator.async_request_refresh.assert_called_once()
-

@@ -90,4 +90,3 @@ async def test_energy_sensor_none(mock_coordinator, mock_config_entry):
     mock_coordinator.data = {}
     sensor = MyStromEnergySensor(mock_coordinator, mock_config_entry)
     assert sensor.native_value is None
-

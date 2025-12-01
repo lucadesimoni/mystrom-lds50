@@ -91,4 +91,3 @@ async def test_flow_user_no_input(hass: HomeAssistant):
 
     assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert "data_schema" in result
-
