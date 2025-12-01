@@ -24,5 +24,8 @@
     "git.inputValidationSubjectLength": 50,
     "cSpell.import": [
         "./.linter/cspell.json"
+    ],
+    "cursorpyright.analysis.extraPaths": [
+        "./custom_components"
     ]
 }
