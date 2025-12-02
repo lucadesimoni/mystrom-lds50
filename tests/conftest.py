@@ -52,4 +52,3 @@ def mock_report_data_zero():
 def mock_session():
     """Create a mock aiohttp session."""
     return AsyncMock(spec=ClientSession)
-

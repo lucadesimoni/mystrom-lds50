@@ -52,9 +52,7 @@ class MyStromSwitch(  # pylint: disable=abstract-method
         """Initialize the switch."""
         super().__init__(coordinator)
         self._entry = entry
-        unique_id_base = (
-            entry.unique_id or entry.data.get("mac") or entry.data["host"]
-        )
+        unique_id_base = entry.unique_id or entry.data.get("mac") or entry.data["host"]
         self._attr_unique_id = unique_id_base
         self._attr_device_info = get_device_info(entry)
 

@@ -46,9 +46,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
 
     async def handle_set_relay_state(call: ServiceCall) -> None:
         """Handle set_relay_state service call."""
-        coordinator = get_coordinator_from_entity_id(
-            hass, call.data["entity_id"]
-        )
+        coordinator = get_coordinator_from_entity_id(hass, call.data["entity_id"])
         if not coordinator:
             _LOGGER.error("Entity %s not found", call.data["entity_id"])
             return
@@ -58,9 +56,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
 
     async def handle_toggle_relay(call: ServiceCall) -> None:
         """Handle toggle_relay service call."""
-        coordinator = get_coordinator_from_entity_id(
-            hass, call.data["entity_id"]
-        )
+        coordinator = get_coordinator_from_entity_id(hass, call.data["entity_id"])
         if not coordinator:
             _LOGGER.error("Entity %s not found", call.data["entity_id"])
             return
@@ -70,9 +66,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
 
     async def handle_reboot(call: ServiceCall) -> None:
         """Handle reboot service call."""
-        coordinator = get_coordinator_from_entity_id(
-            hass, call.data["entity_id"]
-        )
+        coordinator = get_coordinator_from_entity_id(hass, call.data["entity_id"])
         if not coordinator:
             _LOGGER.error("Entity %s not found", call.data["entity_id"])
             return

@@ -63,9 +63,7 @@ async def async_setup_entry(
     async_add_entities(sensors)
 
 
-class MyStromSensorBase(
-    CoordinatorEntity[MyStromDataUpdateCoordinator], SensorEntity
-):
+class MyStromSensorBase(CoordinatorEntity[MyStromDataUpdateCoordinator], SensorEntity):
     """Base class for MyStrom sensors."""
 
     _attr_has_entity_name = True
@@ -88,9 +86,7 @@ class MyStromSensorBase(
         super().__init__(coordinator)
         self._sensor_key = sensor_key
         self._entry = entry
-        unique_id_base = (
-            entry.unique_id or entry.data.get("mac") or entry.data["host"]
-        )
+        unique_id_base = entry.unique_id or entry.data.get("mac") or entry.data["host"]
         self._attr_unique_id = f"{unique_id_base}_{unique_id_suffix}"
         self._attr_device_info = get_device_info(entry)
 

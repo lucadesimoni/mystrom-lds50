@@ -42,8 +42,6 @@ async def async_unload_entry(
     entry: ConfigEntry,  # type: ignore[type-arg]
 ) -> bool:
     """Unload a config entry."""
-    if unload_ok := await hass.config_entries.async_unload_platforms(
-        entry, PLATFORMS
-    ):
+    if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
         hass.data[DOMAIN].pop(entry.entry_id, None)
     return unload_ok

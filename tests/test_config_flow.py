@@ -12,9 +12,7 @@ from homeassistant.core import HomeAssistant
 @pytest.fixture
 def mock_api_success():
     """Mock successful API response."""
-    with patch(
-        "custom_components.mystrom_lds50.config_flow.MyStromAPI"
-    ) as mock_api:
+    with patch("custom_components.mystrom_lds50.config_flow.MyStromAPI") as mock_api:
         mock_instance = AsyncMock()
         mock_instance.get_report.return_value = {
             "power": 12.5,
@@ -30,9 +28,7 @@ def mock_api_success():
 @pytest.fixture
 def mock_api_connection_error():
     """Mock API connection error."""
-    with patch(
-        "custom_components.mystrom_lds50.config_flow.MyStromAPI"
-    ) as mock_api:
+    with patch("custom_components.mystrom_lds50.config_flow.MyStromAPI") as mock_api:
         mock_instance = AsyncMock()
         mock_instance.get_report.side_effect = Exception("Connection error")
         mock_instance.close = AsyncMock()

@@ -3,16 +3,23 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
+# Provide a compatibility alias for type-checking ConfigFlow return types across HA versions
+if TYPE_CHECKING:
+    from homeassistant.data_entry_flow import (
+        ConfigFlowResult,  # type: ignore[attr-defined]
+    )
+else:
+    ConfigFlowResult = object  # runtime no-op; only used for typing
 
 from .api import MyStromAPI, MyStromConnectionError
 from .const import (
@@ -74,7 +81,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the initial step.
 
         Args:

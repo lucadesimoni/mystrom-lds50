@@ -36,9 +36,7 @@ class MyStromDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             name=f"MyStrom {entry.title}",
             update_interval=DEFAULT_SCAN_INTERVAL,
         )
-        self.api = MyStromAPI(
-            entry.data["host"], session=async_get_clientsession(hass)
-        )
+        self.api = MyStromAPI(entry.data["host"], session=async_get_clientsession(hass))
         self.entry = entry
 
     async def _async_update_data(self) -> dict[str, Any]:
