@@ -98,12 +98,13 @@ class MyStromAPI:
 
                 try:
                     data: dict[str, Any] = await response.json()
-                    return data
                 except aiohttp.ContentTypeError:
                     # Some endpoints return plain text
                     if text := await response.text():
                         return {"response": text}
                     return None
+                else:
+                    return data  # noqa: TRY300
 
         except TimeoutError as err:
             msg = f"Timeout connecting to {self.host}: {err}"

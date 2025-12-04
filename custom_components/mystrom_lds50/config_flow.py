@@ -65,8 +65,6 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
             }
             if mapped_type := device_type_map.get(device_type):
                 data[CONF_DEVICE_TYPE] = mapped_type
-
-        return data
     except MyStromConnectionError as err:
         msg = f"Cannot connect to device: {err}"
         raise CannotConnectError(msg) from err
@@ -74,6 +72,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
         _LOGGER.exception("Unexpected exception during validation")
         msg = f"Unexpected error: {err}"
         raise CannotConnectError(msg) from err
+    else:
+        return data  # noqa: TRY300
 
 
 # Pylint incorrectly flags abstract method - is_matching is not required for all flows
