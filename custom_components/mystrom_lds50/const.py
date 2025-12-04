@@ -13,11 +13,18 @@ CONF_HOST = "host"
 CONF_MAC = "mac"
 CONF_NAME = "name"
 CONF_DEVICE_TYPE = "device_type"
-CONF_TOKEN = "token"  # nosec B105
+CONF_TOKEN = "token"  # noqa: S105
 
 # Default values
 DEFAULT_TIMEOUT = 10
 DEFAULT_SCAN_INTERVAL = 30
+
+# HTTP status codes
+HTTP_STATUS_BAD_REQUEST = 400
+HTTP_STATUS_NO_CONTENT = 204
+
+# Energy conversion
+ENERGY_WH_TO_KWH_THRESHOLD = 1000
 
 # API endpoints
 API_ENDPOINT_REPORT = "/report"

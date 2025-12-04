@@ -36,7 +36,9 @@ def mock_coordinator(mock_api, mock_report_data):
 
 
 @pytest.mark.asyncio
-async def test_switch_is_on_when_relay_is_on(mock_coordinator, mock_config_entry):
+async def test_switch_is_on_when_relay_is_on(
+    mock_coordinator, mock_config_entry
+) -> None:
     """Test switch reports on when relay is on."""
     mock_coordinator.data = {KEY_RELAY: 1, KEY_POWER: 12.5}
 
@@ -45,7 +47,9 @@ async def test_switch_is_on_when_relay_is_on(mock_coordinator, mock_config_entry
 
 
 @pytest.mark.asyncio
-async def test_switch_is_off_when_relay_is_off(mock_coordinator, mock_config_entry):
+async def test_switch_is_off_when_relay_is_off(
+    mock_coordinator, mock_config_entry
+) -> None:
     """Test switch reports off when relay is off."""
     mock_coordinator.data = {KEY_RELAY: 0, KEY_POWER: 0}
 
@@ -54,7 +58,7 @@ async def test_switch_is_off_when_relay_is_off(mock_coordinator, mock_config_ent
 
 
 @pytest.mark.asyncio
-async def test_switch_is_on_by_power(mock_coordinator, mock_config_entry):
+async def test_switch_is_on_by_power(mock_coordinator, mock_config_entry) -> None:
     """Test switch reports on based on power consumption."""
     mock_coordinator.data = {KEY_POWER: 12.5}  # No relay key
 
@@ -63,7 +67,7 @@ async def test_switch_is_on_by_power(mock_coordinator, mock_config_entry):
 
 
 @pytest.mark.asyncio
-async def test_turn_on(mock_coordinator, mock_config_entry):
+async def test_turn_on(mock_coordinator, mock_config_entry) -> None:
     """Test turning switch on."""
     switch = MyStromSwitch(mock_coordinator, mock_config_entry)
 
@@ -74,7 +78,7 @@ async def test_turn_on(mock_coordinator, mock_config_entry):
 
 
 @pytest.mark.asyncio
-async def test_turn_off(mock_coordinator, mock_config_entry):
+async def test_turn_off(mock_coordinator, mock_config_entry) -> None:
     """Test turning switch off."""
     switch = MyStromSwitch(mock_coordinator, mock_config_entry)
 
@@ -85,7 +89,7 @@ async def test_turn_off(mock_coordinator, mock_config_entry):
 
 
 @pytest.mark.asyncio
-async def test_toggle(mock_coordinator, mock_config_entry):
+async def test_toggle(mock_coordinator, mock_config_entry) -> None:
     """Test toggling switch."""
     switch = MyStromSwitch(mock_coordinator, mock_config_entry)
 

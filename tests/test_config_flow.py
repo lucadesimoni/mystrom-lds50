@@ -3,10 +3,10 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
-
-from custom_components.mystrom_lds50.config_flow import ConfigFlow
 from homeassistant import data_entry_flow
 from homeassistant.core import HomeAssistant
+
+from custom_components.mystrom_lds50.config_flow import ConfigFlow
 
 
 @pytest.fixture
@@ -37,7 +37,7 @@ def mock_api_connection_error():
 
 
 @pytest.mark.asyncio
-async def test_flow_user_success(hass: HomeAssistant, mock_api_success):
+async def test_flow_user_success(hass: HomeAssistant, mock_api_success) -> None:
     """Test successful user flow."""
     flow = ConfigFlow()
     flow.hass = hass
@@ -59,7 +59,7 @@ async def test_flow_user_success(hass: HomeAssistant, mock_api_success):
 @pytest.mark.asyncio
 async def test_flow_user_connection_error(
     hass: HomeAssistant, mock_api_connection_error
-):
+) -> None:
     """Test user flow with connection error."""
     flow = ConfigFlow()
     flow.hass = hass
@@ -78,7 +78,7 @@ async def test_flow_user_connection_error(
 
 
 @pytest.mark.asyncio
-async def test_flow_user_no_input(hass: HomeAssistant):
+async def test_flow_user_no_input(hass: HomeAssistant) -> None:
     """Test user flow with no input."""
     flow = ConfigFlow()
     flow.hass = hass

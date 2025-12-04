@@ -5,13 +5,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 from .coordinator import MyStromDataUpdateCoordinator
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant
 
 PLATFORMS: list[Platform] = [Platform.SWITCH, Platform.SENSOR]
 
@@ -22,8 +22,8 @@ async def async_setup_entry(
 ) -> bool:
     """Set up MyStrom LDS50 from a config entry."""
     # Import here to avoid circular import
-    from .services import (
-        async_setup_services,  # pylint: disable=import-outside-toplevel
+    from .services import (  # noqa: PLC0415
+        async_setup_services,
     )
 
     coordinator = MyStromDataUpdateCoordinator(hass, entry)

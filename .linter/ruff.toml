@@ -30,4 +30,8 @@ max-complexity = 25
     "S105",  # Possible hardcoded password - test fixtures use fake values
     "SLF001", # Private member accessed - tests need to access private members
     "TC002", # Move third-party import into TYPE_CHECKING block - tests need runtime imports
+    "ANN001", # Missing type annotation for function argument - pytest fixtures are dynamic
+    "ANN201", # Missing return type annotation - pytest fixtures don't need explicit return types
+    "ARG001", # Unused function argument - pytest fixtures may be unused in some tests
+    "PLR2004", # Magic value used in comparison - test values are intentionally literal
 ]

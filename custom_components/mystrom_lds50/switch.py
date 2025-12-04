@@ -5,8 +5,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.switch import SwitchEntity
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
@@ -23,6 +21,8 @@ from .device import get_device_info
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 
 async def async_setup_entry(
@@ -65,17 +65,17 @@ class MyStromSwitch(  # pylint: disable=abstract-method
             return bool(relay)
         return bool(self.coordinator.data.get(KEY_POWER, 0) > 0)
 
-    async def async_turn_on(self, **kwargs: Any) -> None:
+    async def async_turn_on(self, **_kwargs: Any) -> None:
         """Turn the switch on."""
         await self.coordinator.api.turn_on()
         await self.coordinator.async_request_refresh()
 
-    async def async_turn_off(self, **kwargs: Any) -> None:
+    async def async_turn_off(self, **_kwargs: Any) -> None:
         """Turn the switch off."""
         await self.coordinator.api.turn_off()
         await self.coordinator.async_request_refresh()
 
-    async def async_toggle(self, **kwargs: Any) -> None:
+    async def async_toggle(self, **_kwargs: Any) -> None:
         """Toggle the switch."""
         await self.coordinator.api.toggle_relay()
         await self.coordinator.async_request_refresh()

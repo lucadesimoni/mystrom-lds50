@@ -6,15 +6,15 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
-
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
-from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-# Provide a compatibility alias for type-checking ConfigFlow return types across HA versions
+# Provide a compatibility alias for type-checking ConfigFlow return types
+# across HA versions
 if TYPE_CHECKING:
+    from homeassistant.core import HomeAssistant
     from homeassistant.data_entry_flow import (
         ConfigFlowResult,  # type: ignore[attr-defined]
     )
@@ -47,9 +47,10 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     """Validate the user input allows us to connect."""
     api = MyStromAPI(data[CONF_HOST], async_get_clientsession(hass))
     try:
-        if not (report := await api.get_report()):
+        report = await api.get_report()
+        if not report:
             msg = "Device did not return status report"
-            raise CannotConnectError(msg)
+            raise CannotConnectError(msg)  # noqa: TRY301
 
         # Extract MAC from report if not provided
         if not data.get(CONF_MAC) and (mac := report.get("mac")):
@@ -65,8 +66,6 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
             }
             if mapped_type := device_type_map.get(device_type):
                 data[CONF_DEVICE_TYPE] = mapped_type
-
-        return data
     except MyStromConnectionError as err:
         msg = f"Cannot connect to device: {err}"
         raise CannotConnectError(msg) from err
@@ -74,6 +73,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
         _LOGGER.exception("Unexpected exception during validation")
         msg = f"Unexpected error: {err}"
         raise CannotConnectError(msg) from err
+    else:
+        return data
 
 
 # Pylint incorrectly flags abstract method - is_matching is not required for all flows
@@ -85,14 +86,15 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Handle the initial step.
+        """
+        Handle the initial step.
 
         Args:
             user_input: User input data
 
         Returns:
-
             Flow result
+
         """
         errors: dict[str, str] = {}
 

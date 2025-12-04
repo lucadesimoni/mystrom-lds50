@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
 import voluptuous as vol
-
-from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers import config_validation as cv
 
 from .const import (
@@ -16,6 +15,9 @@ from .const import (
     SERVICE_TOGGLE_RELAY,
 )
 from .helpers import get_coordinator_from_entity_id
+
+if TYPE_CHECKING:
+    from homeassistant.core import HomeAssistant, ServiceCall
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -51,7 +53,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
             _LOGGER.error("Entity %s not found", call.data["entity_id"])
             return
 
-        await coordinator.api.set_relay(call.data["state"])
+        await coordinator.api.set_relay(state=call.data["state"])
         await coordinator.async_request_refresh()
 
     async def handle_toggle_relay(call: ServiceCall) -> None:

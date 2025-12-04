@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -14,13 +14,12 @@ from homeassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
     ATTR_WIFI_SIGNAL,
     DOMAIN,
+    ENERGY_WH_TO_KWH_THRESHOLD,
     KEY_ENERGY,
     KEY_POWER,
     KEY_TEMPERATURE,
@@ -31,6 +30,8 @@ from .device import get_device_info
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 
 async def async_setup_entry(
@@ -38,12 +39,14 @@ async def async_setup_entry(
     entry: ConfigEntry,  # type: ignore[type-arg]
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up MyStrom sensors from a config entry.
+    """
+    Set up MyStrom sensors from a config entry.
 
     Args:
         hass: Home Assistant instance
         entry: Configuration entry
         async_add_entities: Callback to add entities
+
     """
     coordinator: MyStromDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
@@ -75,13 +78,15 @@ class MyStromSensorBase(CoordinatorEntity[MyStromDataUpdateCoordinator], SensorE
         sensor_key: str,
         unique_id_suffix: str,
     ) -> None:
-        """Initialize the sensor.
+        """
+        Initialize the sensor.
 
         Args:
             coordinator: Data update coordinator
             entry: Configuration entry
             sensor_key: Key in coordinator data
             unique_id_suffix: Suffix for unique ID
+
         """
         super().__init__(coordinator)
         self._sensor_key = sensor_key
@@ -104,21 +109,24 @@ class MyStromPowerSensor(MyStromSensorBase):
         coordinator: MyStromDataUpdateCoordinator,
         entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
-        """Initialize the power sensor.
+        """
+        Initialize the power sensor.
 
         Args:
             coordinator: Data update coordinator
             entry: Configuration entry
+
         """
         super().__init__(coordinator, entry, KEY_POWER, "power")
 
     @property
     def native_value(self) -> float | None:
-        """Return the state of the sensor.
+        """
+        Return the state of the sensor.
 
         Returns:
-
             Current power consumption in watts
+
         """
         if not self.coordinator.data:
             return None
@@ -133,11 +141,12 @@ class MyStromPowerSensor(MyStromSensorBase):
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        """Return the state attributes.
+        """
+        Return the state attributes.
 
         Returns:
-
             Dictionary of state attributes
+
         """
         if not self.coordinator.data:
             return {}
@@ -164,21 +173,24 @@ class MyStromTemperatureSensor(MyStromSensorBase):
         coordinator: MyStromDataUpdateCoordinator,
         entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
-        """Initialize the temperature sensor.
+        """
+        Initialize the temperature sensor.
 
         Args:
             coordinator: Data update coordinator
             entry: Configuration entry
+
         """
         super().__init__(coordinator, entry, KEY_TEMPERATURE, "temperature")
 
     @property
     def native_value(self) -> float | None:
-        """Return the state of the sensor.
+        """
+        Return the state of the sensor.
 
         Returns:
-
             Current temperature in Celsius
+
         """
         if not self.coordinator.data:
             return None
@@ -205,21 +217,24 @@ class MyStromEnergySensor(MyStromSensorBase):
         coordinator: MyStromDataUpdateCoordinator,
         entry: ConfigEntry,  # type: ignore[type-arg]
     ) -> None:
-        """Initialize the energy sensor.
+        """
+        Initialize the energy sensor.
 
         Args:
             coordinator: Data update coordinator
             entry: Configuration entry
+
         """
         super().__init__(coordinator, entry, KEY_ENERGY, "energy")
 
     @property
     def native_value(self) -> float | None:
-        """Return the state of the sensor.
+        """
+        Return the state of the sensor.
 
         Returns:
-
             Total energy consumption in kWh
+
         """
         if not self.coordinator.data:
             return None
@@ -229,8 +244,10 @@ class MyStromEnergySensor(MyStromSensorBase):
 
         try:
             # Convert from Wh to kWh if needed
-            if (energy_value := float(energy)) > 1000:
+            energy_value = float(energy)
+            if energy_value > ENERGY_WH_TO_KWH_THRESHOLD:
                 return energy_value / 1000.0
-            return energy_value
         except (ValueError, TypeError):
             return None
+        else:
+            return energy_value

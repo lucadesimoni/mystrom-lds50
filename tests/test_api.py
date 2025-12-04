@@ -11,7 +11,7 @@ from custom_components.mystrom_lds50.api import (
 
 
 @pytest.mark.asyncio
-async def test_api_init():
+async def test_api_init() -> None:
     """Test API client initialization."""
     mock_session = AsyncMock()
     api = MyStromAPI("192.168.1.100", session=mock_session)
@@ -20,7 +20,7 @@ async def test_api_init():
 
 
 @pytest.mark.asyncio
-async def test_get_report_success():
+async def test_get_report_success() -> None:
     """Test successful device report retrieval."""
     mock_response = AsyncMock()
     mock_response.status = 200
@@ -48,7 +48,7 @@ async def test_get_report_success():
 
 
 @pytest.mark.asyncio
-async def test_set_relay():
+async def test_set_relay() -> None:
     """Test setting relay state."""
     mock_response = AsyncMock()
     mock_response.status = 204
@@ -66,7 +66,7 @@ async def test_set_relay():
 
 
 @pytest.mark.asyncio
-async def test_toggle_relay():
+async def test_toggle_relay() -> None:
     """Test toggling relay."""
     mock_response = AsyncMock()
     mock_response.status = 200
@@ -84,7 +84,7 @@ async def test_toggle_relay():
 
 
 @pytest.mark.asyncio
-async def test_turn_on_off():
+async def test_turn_on_off() -> None:
     """Test turning device on and off."""
     mock_response = AsyncMock()
     mock_response.status = 204
@@ -102,7 +102,7 @@ async def test_turn_on_off():
 
 
 @pytest.mark.asyncio
-async def test_reboot():
+async def test_reboot() -> None:
     """Test rebooting device."""
     mock_response = AsyncMock()
     mock_response.status = 204
@@ -119,7 +119,7 @@ async def test_reboot():
 
 
 @pytest.mark.asyncio
-async def test_api_error_handling():
+async def test_api_error_handling() -> None:
     """Test API error handling."""
     mock_response = AsyncMock()
     mock_response.status = 404
@@ -137,7 +137,7 @@ async def test_api_error_handling():
 
 
 @pytest.mark.asyncio
-async def test_reuse_session():
+async def test_reuse_session() -> None:
     """Test reusing an existing session."""
     mock_session = AsyncMock()
 

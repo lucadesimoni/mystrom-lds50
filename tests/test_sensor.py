@@ -47,14 +47,14 @@ def mock_coordinator():
 
 
 @pytest.mark.asyncio
-async def test_power_sensor_value(mock_coordinator, mock_config_entry):
+async def test_power_sensor_value(mock_coordinator, mock_config_entry) -> None:
     """Test power sensor returns correct value."""
     sensor = MyStromPowerSensor(mock_coordinator, mock_config_entry)
     assert sensor.native_value == 12.5
 
 
 @pytest.mark.asyncio
-async def test_power_sensor_none(mock_coordinator, mock_config_entry):
+async def test_power_sensor_none(mock_coordinator, mock_config_entry) -> None:
     """Test power sensor returns None when no data."""
     mock_coordinator.data = {}
     sensor = MyStromPowerSensor(mock_coordinator, mock_config_entry)
@@ -62,14 +62,14 @@ async def test_power_sensor_none(mock_coordinator, mock_config_entry):
 
 
 @pytest.mark.asyncio
-async def test_temperature_sensor_value(mock_coordinator, mock_config_entry):
+async def test_temperature_sensor_value(mock_coordinator, mock_config_entry) -> None:
     """Test temperature sensor returns correct value."""
     sensor = MyStromTemperatureSensor(mock_coordinator, mock_config_entry)
     assert sensor.native_value == 23.5
 
 
 @pytest.mark.asyncio
-async def test_temperature_sensor_none(mock_coordinator, mock_config_entry):
+async def test_temperature_sensor_none(mock_coordinator, mock_config_entry) -> None:
     """Test temperature sensor returns None when no data."""
     mock_coordinator.data = {}
     sensor = MyStromTemperatureSensor(mock_coordinator, mock_config_entry)
@@ -77,7 +77,7 @@ async def test_temperature_sensor_none(mock_coordinator, mock_config_entry):
 
 
 @pytest.mark.asyncio
-async def test_energy_sensor_value(mock_coordinator, mock_config_entry):
+async def test_energy_sensor_value(mock_coordinator, mock_config_entry) -> None:
     """Test energy sensor returns correct value."""
     sensor = MyStromEnergySensor(mock_coordinator, mock_config_entry)
     # Should convert from Wh to kWh
@@ -85,7 +85,7 @@ async def test_energy_sensor_value(mock_coordinator, mock_config_entry):
 
 
 @pytest.mark.asyncio
-async def test_energy_sensor_none(mock_coordinator, mock_config_entry):
+async def test_energy_sensor_none(mock_coordinator, mock_config_entry) -> None:
     """Test energy sensor returns None when no data."""
     mock_coordinator.data = {}
     sensor = MyStromEnergySensor(mock_coordinator, mock_config_entry)
