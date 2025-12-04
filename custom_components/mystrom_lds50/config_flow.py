@@ -21,6 +21,7 @@ from .const import (
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
+    from homeassistant.data_entry_flow import FlowResult
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -77,7 +78,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ):
+    ) -> FlowResult:
         """
         Handle the initial step.
 
