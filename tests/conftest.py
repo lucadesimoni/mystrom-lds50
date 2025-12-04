@@ -1,12 +1,11 @@
 """Pytest configuration and fixtures."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from aiohttp import ClientSession
 
 from custom_components.mystrom_lds50.api import MyStromAPI
-from custom_components.mystrom_lds50.const import DOMAIN
 
 
 @pytest.fixture

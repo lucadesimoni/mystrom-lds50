@@ -3,12 +3,8 @@
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-from homeassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.mystrom_lds50 import async_setup_entry
 from custom_components.mystrom_lds50.const import DOMAIN, KEY_POWER, KEY_RELAY
 from custom_components.mystrom_lds50.coordinator import MyStromDataUpdateCoordinator
 from custom_components.mystrom_lds50.switch import MyStromSwitch

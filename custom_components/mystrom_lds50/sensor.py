@@ -117,6 +117,7 @@ class MyStromPowerSensor(MyStromSensorBase):
         """Return the state of the sensor.
 
         Returns:
+
             Current power consumption in watts
         """
         if not self.coordinator.data:
@@ -135,6 +136,7 @@ class MyStromPowerSensor(MyStromSensorBase):
         """Return the state attributes.
 
         Returns:
+
             Dictionary of state attributes
         """
         if not self.coordinator.data:
@@ -175,6 +177,7 @@ class MyStromTemperatureSensor(MyStromSensorBase):
         """Return the state of the sensor.
 
         Returns:
+
             Current temperature in Celsius
         """
         if not self.coordinator.data:
@@ -215,6 +218,7 @@ class MyStromEnergySensor(MyStromSensorBase):
         """Return the state of the sensor.
 
         Returns:
+
             Total energy consumption in kWh
         """
         if not self.coordinator.data:

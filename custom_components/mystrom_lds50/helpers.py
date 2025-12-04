@@ -23,6 +23,7 @@ def get_coordinator_from_entity_id(
         entity_id: Entity ID
 
     Returns:
+
         Coordinator if found, None otherwise
     """
     entity_registry = er.async_get(hass)

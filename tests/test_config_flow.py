@@ -4,8 +4,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from custom_components.mystrom_lds50.config_flow import CannotConnect, ConfigFlow
-from homeassistant import config_entries, data_entry_flow
+from custom_components.mystrom_lds50.config_flow import ConfigFlow
+from homeassistant import data_entry_flow
 from homeassistant.core import HomeAssistant
 
 

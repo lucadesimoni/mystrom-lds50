@@ -65,9 +65,11 @@ class MyStromAPI:
             **kwargs: Additional arguments for aiohttp
 
         Returns:
+
             Response data as dictionary, or None if empty
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
@@ -82,9 +84,9 @@ class MyStromAPI:
                 **kwargs,
             ) as response:
                 if response.status >= 400:
-                    raise MyStromAPIError(
-                        f"HTTP {response.status}: {await response.text()}"
-                    )
+                    error_text = await response.text()
+                    msg = f"HTTP {response.status}: {error_text}"
+                    raise MyStromAPIError(msg)
 
                 # Some endpoints return empty responses
                 if response.status == 204 or response.content_length == 0:
@@ -100,27 +102,28 @@ class MyStromAPI:
                     return None
 
         except asyncio.TimeoutError as err:
-            raise MyStromConnectionError(
-                f"Timeout connecting to {self.host}: {err}"
-            ) from err
+            msg = f"Timeout connecting to {self.host}: {err}"
+            raise MyStromConnectionError(msg) from err
         except aiohttp.ClientError as err:
-            raise MyStromConnectionError(
-                f"Error communicating with {self.host}: {err}"
-            ) from err
+            msg = f"Error communicating with {self.host}: {err}"
+            raise MyStromConnectionError(msg) from err
 
     async def get_report(self) -> dict[str, Any]:
         """Get device status report.
 
         Returns:
+
             Device status information
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
         if data := await self._request("GET", API_ENDPOINT_REPORT):
             return data
-        raise MyStromAPIError("Empty response from device")
+        msg = "Empty response from device"
+        raise MyStromAPIError(msg)
 
     async def set_relay(self, state: bool) -> None:
         """Set relay state.
@@ -129,6 +132,7 @@ class MyStromAPI:
             state: True to turn on, False to turn off
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
@@ -142,9 +146,11 @@ class MyStromAPI:
         """Toggle relay state.
 
         Returns:
+
             Updated device status or None
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
@@ -154,6 +160,7 @@ class MyStromAPI:
         """Turn device on.
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
@@ -163,6 +170,7 @@ class MyStromAPI:
         """Turn device off.
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """
@@ -172,6 +180,7 @@ class MyStromAPI:
         """Reboot the device.
 
         Raises:
+
             MyStromConnectionError: If connection fails
             MyStromAPIError: If API returns an error
         """

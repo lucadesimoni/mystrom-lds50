@@ -44,6 +44,8 @@ class MyStromDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         try:
             if data := await self.api.get_report():
                 return data
-            raise UpdateFailed("Empty response from device")
+            msg = "Empty response from device"
+            raise UpdateFailed(msg)
         except MyStromConnectionError as err:
-            raise UpdateFailed(f"Error communicating with device: {err}") from err
+            msg = f"Error communicating with device: {err}"
+            raise UpdateFailed(msg) from err

@@ -48,7 +48,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     api = MyStromAPI(data[CONF_HOST], async_get_clientsession(hass))
     try:
         if not (report := await api.get_report()):
-            raise CannotConnect("Device did not return status report")
+            msg = "Device did not return status report"
+            raise CannotConnectError(msg)
 
         # Extract MAC from report if not provided
         if not data.get(CONF_MAC) and (mac := report.get("mac")):
@@ -67,10 +68,12 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
 
         return data
     except MyStromConnectionError as err:
-        raise CannotConnect(f"Cannot connect to device: {err}") from err
+        msg = f"Cannot connect to device: {err}"
+        raise CannotConnectError(msg) from err
     except Exception as err:
         _LOGGER.exception("Unexpected exception during validation")
-        raise CannotConnect(f"Unexpected error: {err}") from err
+        msg = f"Unexpected error: {err}"
+        raise CannotConnectError(msg) from err
 
 
 # Pylint incorrectly flags abstract method - is_matching is not required for all flows
@@ -88,6 +91,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
             user_input: User input data
 
         Returns:
+
             Flow result
         """
         errors: dict[str, str] = {}
@@ -106,7 +110,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
                     title=device_name,
                     data=validated_data,
                 )
-            except CannotConnect:
+            except CannotConnectError:
                 errors["base"] = ERROR_CANNOT_CONNECT
             except Exception:
                 _LOGGER.exception("Unexpected exception")
@@ -117,5 +121,5 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
         )
 
 
-class CannotConnect(HomeAssistantError):
+class CannotConnectError(HomeAssistantError):
     """Error to indicate we cannot connect."""

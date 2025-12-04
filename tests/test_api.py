@@ -1,13 +1,12 @@
 """Tests for MyStrom API client."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
 
 import pytest
 
 from custom_components.mystrom_lds50.api import (
     MyStromAPI,
     MyStromAPIError,
-    MyStromConnectionError,
 )
 
 
