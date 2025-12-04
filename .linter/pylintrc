@@ -17,7 +17,9 @@ disable=
     # Home Assistant specific
     no-member,
     unused-argument,
-    broad-exception-caught
+    broad-exception-caught,
+    # Conflicts with Ruff D213 (multi-line docstring summary on second line)
+    docstring-first-line-empty
 
 [FORMAT]
 max-line-length=88

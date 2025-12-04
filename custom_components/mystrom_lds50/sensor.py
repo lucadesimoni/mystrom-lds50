@@ -244,10 +244,8 @@ class MyStromEnergySensor(MyStromSensorBase):
 
         try:
             # Convert from Wh to kWh if needed
-            energy_value = float(energy)
-            if energy_value > ENERGY_WH_TO_KWH_THRESHOLD:
+            if (energy_value := float(energy)) > ENERGY_WH_TO_KWH_THRESHOLD:
                 return energy_value / 1000.0
+            return energy_value
         except (ValueError, TypeError):
             return None
-        else:
-            return energy_value

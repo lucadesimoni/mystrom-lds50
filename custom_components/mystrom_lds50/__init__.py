@@ -22,7 +22,7 @@ async def async_setup_entry(
 ) -> bool:
     """Set up MyStrom LDS50 from a config entry."""
     # Import here to avoid circular import
-    from .services import (  # noqa: PLC0415
+    from .services import (  # noqa: PLC0415  # pylint: disable=import-outside-toplevel
         async_setup_services,
     )
 

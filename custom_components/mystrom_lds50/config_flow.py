@@ -11,6 +11,14 @@ from homeassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
+from .api import MyStromAPI, MyStromConnectionError
+from .const import (
+    CONF_DEVICE_TYPE,
+    DOMAIN,
+    ERROR_CANNOT_CONNECT,
+    ERROR_UNKNOWN,
+)
+
 # Provide a compatibility alias for type-checking ConfigFlow return types
 # across HA versions
 if TYPE_CHECKING:
@@ -20,14 +28,6 @@ if TYPE_CHECKING:
     )
 else:
     ConfigFlowResult = object  # runtime no-op; only used for typing
-
-from .api import MyStromAPI, MyStromConnectionError
-from .const import (
-    CONF_DEVICE_TYPE,
-    DOMAIN,
-    ERROR_CANNOT_CONNECT,
-    ERROR_UNKNOWN,
-)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,8 +47,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     """Validate the user input allows us to connect."""
     api = MyStromAPI(data[CONF_HOST], async_get_clientsession(hass))
     try:
-        report = await api.get_report()
-        if not report:
+        if not (report := await api.get_report()):
             msg = "Device did not return status report"
             raise CannotConnectError(msg)  # noqa: TRY301
 
@@ -66,6 +65,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
             }
             if mapped_type := device_type_map.get(device_type):
                 data[CONF_DEVICE_TYPE] = mapped_type
+
+        return data
     except MyStromConnectionError as err:
         msg = f"Cannot connect to device: {err}"
         raise CannotConnectError(msg) from err
@@ -73,8 +74,6 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
         _LOGGER.exception("Unexpected exception during validation")
         msg = f"Unexpected error: {err}"
         raise CannotConnectError(msg) from err
-    else:
-        return data
 
 
 # Pylint incorrectly flags abstract method - is_matching is not required for all flows
