@@ -72,8 +72,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
         _LOGGER.exception("Unexpected exception during validation")
         msg = f"Unexpected error: {err}"
         raise CannotConnectError(msg) from err
-    else:
-        return data  # noqa: TRY300
+    else:  # pylint: disable=no-else-raise
+        return data
 
 
 # Pylint incorrectly flags abstract method - is_matching is not required for all flows

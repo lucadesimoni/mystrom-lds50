@@ -103,8 +103,8 @@ class MyStromAPI:
                     if text := await response.text():
                         return {"response": text}
                     return None
-                else:
-                    return data  # noqa: TRY300
+                else:  # pylint: disable=no-else-return
+                    return data
 
         except TimeoutError as err:
             msg = f"Timeout connecting to {self.host}: {err}"
