@@ -75,9 +75,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
 
     VERSION = 1
 
-    async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> Any:
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> Any:
         """
         Handle the initial step.
 
