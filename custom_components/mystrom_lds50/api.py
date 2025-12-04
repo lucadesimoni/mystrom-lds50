@@ -103,7 +103,7 @@ class MyStromAPI:
                     if text := await response.text():
                         return {"response": text}
                     return None
-                else:  # pylint: disable=no-else-return
+                else:
                     return data
 
         except TimeoutError as err:

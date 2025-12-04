@@ -19,15 +19,8 @@ from .const import (
     ERROR_UNKNOWN,
 )
 
-# Provide a compatibility alias for type-checking ConfigFlow return types
-# across HA versions
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
-    from homeassistant.data_entry_flow import (
-        ConfigFlowResult,  # type: ignore[attr-defined]
-    )
-else:
-    ConfigFlowResult = object  # runtime no-op; only used for typing
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,7 +65,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
         _LOGGER.exception("Unexpected exception during validation")
         msg = f"Unexpected error: {err}"
         raise CannotConnectError(msg) from err
-    else:  # pylint: disable=no-else-raise
+    else:
         return data
 
 
@@ -84,7 +77,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=a
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    ):
         """
         Handle the initial step.
 

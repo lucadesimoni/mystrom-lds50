@@ -19,7 +19,10 @@ disable=
     unused-argument,
     broad-exception-caught,
     # Conflicts with Ruff D213 (multi-line docstring summary on second line)
-    docstring-first-line-empty
+    docstring-first-line-empty,
+    # Conflicts with Ruff TRY300 (try-else-return/raise required)
+    no-else-return,
+    no-else-raise
 
 [FORMAT]
 max-line-length=88

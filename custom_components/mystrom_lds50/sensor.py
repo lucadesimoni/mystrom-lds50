@@ -248,5 +248,5 @@ class MyStromEnergySensor(MyStromSensorBase):
                 return energy_value / 1000.0
         except (ValueError, TypeError):
             return None
-        else:  # pylint: disable=no-else-return
+        else:
             return energy_value
