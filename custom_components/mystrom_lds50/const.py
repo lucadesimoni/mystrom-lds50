@@ -13,7 +13,7 @@ CONF_HOST = "host"
 CONF_MAC = "mac"
 CONF_NAME = "name"
 CONF_DEVICE_TYPE = "device_type"
-CONF_TOKEN = "token"  # noqa: S105
+CONF_TOKEN = "token"  # nosec B105
 
 # Default values
 DEFAULT_TIMEOUT = 10
